@@ -7,6 +7,7 @@ import SignUp from './components/SignUp'
 import Login from './components/Login'
 import ViewAllPost from './components/ViewAllPost'
 import CreatePost from './components/CreatePost'
+import EditPost from './components/EditPost'
 
 const routes = [{
         path: '/sign-up',
@@ -23,6 +24,11 @@ const routes = [{
     {
         path: '/create-post',
         component: CreatePost,
+        beforeEnter: requireAuth
+    },
+    {
+        path: '/edit-post/:id',
+        component: EditPost,
         beforeEnter: requireAuth
     },
 ]

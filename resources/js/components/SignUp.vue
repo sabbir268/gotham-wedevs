@@ -60,7 +60,7 @@ export default {
             let user = res.data.user;
             let token = res.data.access_token;
 
-            localStorage.setItem("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("token", token);
 
             this.$router.push("/all-post");
