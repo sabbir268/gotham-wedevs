@@ -2310,7 +2310,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     checkOwnership: function checkOwnership(user_id) {
       var user = JSON.parse(localStorage.getItem("user"));
-      return user_id == user.id ? true : false;
+
+      if (user) {
+        return user_id == user.id ? true : false;
+      } else {
+        return false;
+      }
     },
     deletePost: function deletePost(id) {
       var _this2 = this;
@@ -39078,7 +39083,7 @@ var render = function() {
       "nav",
       { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
       [
-        _c("a", { staticClass: "navbar-brand", attrs: { href: "#" } }, [
+        _c("router-link", { staticClass: "navbar-brand", attrs: { to: "/" } }, [
           _vm._v("Gotham")
         ]),
         _vm._v(" "),
@@ -39180,7 +39185,8 @@ var render = function() {
             ])
           ]
         )
-      ]
+      ],
+      1
     ),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-12" }, [_c("router-view")], 1)
@@ -54757,6 +54763,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 
 var routes = [{
+  path: '/',
+  component: _components_ViewAllPost__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
   path: '/sign-up',
   component: _components_SignUp__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {

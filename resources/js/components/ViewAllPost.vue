@@ -53,7 +53,11 @@ export default {
 
     checkOwnership(user_id) {
       let user = JSON.parse(localStorage.getItem("user"));
-      return user_id == user.id ? true : false;
+      if (user) {
+        return user_id == user.id ? true : false;
+      } else {
+        return false;
+      }
     },
 
     deletePost(id) {

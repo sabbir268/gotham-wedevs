@@ -10,6 +10,10 @@ import CreatePost from './components/CreatePost'
 import EditPost from './components/EditPost'
 
 const routes = [{
+        path: '/',
+        component: ViewAllPost
+    },
+    {
         path: '/sign-up',
         component: SignUp
     },

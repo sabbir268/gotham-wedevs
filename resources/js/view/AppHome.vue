@@ -1,7 +1,7 @@
 <template>
   <div class="container m-auto">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Gotham</a>
+      <router-link class="navbar-brand" to="/">Gotham</router-link>
       <button
         class="navbar-toggler"
         type="button"

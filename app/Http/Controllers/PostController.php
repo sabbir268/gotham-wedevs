@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CallMetropolisEvent;
 use App\Http\Requests\PostRequest;
 use App\post;
 use Illuminate\Http\Request;
@@ -43,7 +44,8 @@ class PostController extends Controller
     {
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
-        if (Post::create($data)) {
+        if ($post = Post::create($data)) {
+            event(new CallMetropolisEvent($post));
             return response(['msg' => 'created']);
         }
     }
