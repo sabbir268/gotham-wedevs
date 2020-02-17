@@ -20,7 +20,13 @@ class AuthController extends Controller
         $data = $request->all();
         $data['password'] = bcrypt($request->password);
         if (User::create($data)) {
-            return $this->login($request);
+            if (!auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
+                return response(['message' => 'Invalid credentials']);
+            }
+
+            $accessToken = auth()->user()->createToken('authToken')->accessToken;
+
+            return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'success']);
         }
     }
 
@@ -33,6 +39,6 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'success']);
     }
 }
