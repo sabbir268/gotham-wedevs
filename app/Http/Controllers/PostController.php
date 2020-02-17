@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return Post::all();
     }
 
     /**
@@ -33,9 +39,13 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = auth()->user()->id;
+        if (Post::create($data)) {
+            return response(['msg' => 'created']);
+        }
     }
 
     /**
@@ -44,9 +54,9 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(post $post)
+    public function show(Post $post)
     {
-        //
+        return $post;
     }
 
     /**
@@ -55,7 +65,7 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(post $post)
+    public function edit(Post $post)
     {
         //
     }
@@ -67,9 +77,14 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        if (auth()->user()->can('update', $post)) {
+            $data = $request->all();
+            if ($post->update($data)) {
+                return response(['msg' => 'updated']);
+            }
+        }
     }
 
     /**
@@ -78,8 +93,14 @@ class PostController extends Controller
      * @param  \App\post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(post $post)
+    public function destroy(Post $post)
     {
-        //
+        if ($post) {
+            if (auth()->user()->can('delete', $post)) {
+                if ($post->delete()) {
+                    return response(['msg' => 'deleted']);
+                }
+            }
+        }
     }
 }
